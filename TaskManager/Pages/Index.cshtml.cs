@@ -159,7 +159,7 @@ namespace TaskManager.Pages
             }
             else
             {
-                return new JsonResult("Task not found");
+                return Content("Task not found");
             }
         }
 
