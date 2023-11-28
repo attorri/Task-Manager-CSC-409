@@ -4,6 +4,9 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Text.Json;
 
 namespace TaskManager.Pages
 {
@@ -78,9 +81,10 @@ namespace TaskManager.Pages
             SearchTask.Id = SearchedID;
             int maxTasks = tasks.Count - 1;
             bool matchTasks = false;
+            var searchedTask = tasks.FirstOrDefault(t => t.Id == SearchTask.Id);
             for (int i=0; i< tasks.Count; i++)
             {
-                if (tasks[i].Id == SearchTask.Id)
+                if (tasks[i].Id == searchedTask.Id)
                 {
                     matchTasks = true;
                     SearchTask.Description = tasks[i].Description;
@@ -122,6 +126,41 @@ namespace TaskManager.Pages
                 taskToComplete.CompletionDate = DateTime.Now;
             }
             return RedirectToPage();
+        }
+
+        [BindProperty]
+        public int searchedID { get; set; }
+
+        public TaskItem TaskDetails { get; set; }
+
+        public IActionResult OnPostGetTaskDetails()
+        {
+            TaskDetails = tasks.FirstOrDefault(t => t.Id == searchedID);
+
+            if (TaskDetails != null)
+            {
+                // Convert task details to a JSON object and return
+                var json = JsonSerializer.Serialize(new
+                {
+                    Id = TaskDetails.Id,
+                    Description = TaskDetails.Description,
+                    DueDate = TaskDetails.DueDate.ToString("yyyy-MM-dd"),
+                    IsCompleted = TaskDetails.IsCompleted,
+                    CompletionDate = TaskDetails.CompletionDate.HasValue ? TaskDetails.CompletionDate.Value.ToString("yyyy-MM-dd") : null
+                });
+                // Convert JSON to bytes
+                var bytes = Encoding.UTF8.GetBytes(json);
+
+                // Return a FileResult with the JSON data
+                return new FileContentResult(bytes, "application/json")
+                {
+                    FileDownloadName = $"task_{searchedID}.json"
+                };
+            }
+            else
+            {
+                return new JsonResult("Task not found");
+            }
         }
 
         // API: Getting all tasks

@@ -127,41 +127,14 @@
 
     <br />
     <br />
+
     <h2>View Task</h2>
-    <form method="post" asp-page-handler="SearchTask">
-        <label>Enter Task ID</label>
-        <input type="number" name="SearchedId" placeholder="Task ID" required />
-        <button type="submit">Search</button>
+    <form method="post" asp-page-handler="GetTaskDetails">
+        <label for="taskId">Enter Task ID:</label>
+        <input type="number" id="searchedID" name="searchedID" placeholder="Task ID" required />
+        <button type="submit">Get Task Details</button>
     </form>
-    <br />
-    <br />
 
-
-    @if (Model.SearchTask.Id != 0 && Model.SearchTask.Id != null)
-    {
-        <h2>Search Result</h2>
-        <table>
-            <thead>
-                <tr>
-                    <th>Id</th>
-                    <th>Description</th>
-                    <th>Due Date</th>
-                    <th>Is Completed</th>
-                    <th>Completion Date</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>@Model.SearchTask.Id</td>
-                    <td>@Model.SearchTask.Description</td>
-                    <td>@Model.SearchTask.DueDate.ToString("yyyy-MM-dd")</td>
-                    <td>@Model.SearchTask.IsCompleted</td>
-                    <td>@(Model.SearchTask.CompletionDate.HasValue ? Model.SearchTask.CompletionDate.Value.ToString("yyyy-MM-dd") : "-")</td>
-                </tr>
-            </tbody>
-        </table>
-    }
-    
 
 </body>
 </html>
