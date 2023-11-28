@@ -1,0 +1,168 @@
+﻿@page
+@model TaskManager.Pages.IndexModel
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Task Manager</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 20px;
+        }
+
+        h1, h2 {
+            color: #333;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        form {
+            margin-bottom: 20px;
+        }
+
+        label {
+            margin-right: 10px;
+        }
+
+        input[type="text"], input[type="date"] {
+            padding: 8px;
+            margin-right: 10px;
+            width: 200px;
+        }
+
+        button {
+            padding: 8px 12px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+            button:hover {
+                background-color: #45a049;
+            }
+
+        .edit-button {
+            background-color: #2196F3;
+        }
+
+            .edit-button:hover {
+                background-color: #0b7dda;
+            }
+    </style>
+</head>
+<body>
+    <h1>Task Manager</h1>
+
+    <h2>All Tasks</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Description</th>
+                <th>Due Date</th>
+                <th>Is Completed</th>
+                <th>Completion Date</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var task in Model.Tasks)
+            {
+                <tr>
+                    <td>@task.Id</td>
+                    <td>@task.Description</td>
+                    <td>@task.DueDate.ToString("yyyy-MM-dd")</td>
+                    <td>@task.IsCompleted</td>
+                    <td>@(task.CompletionDate.HasValue ? task.CompletionDate.Value.ToString("yyyy-MM-dd") : "-")</td>
+                    <td>
+                        <form method="post" asp-page-handler="RemoveTask">
+                            <input type="hidden" name="taskId" value="@task.Id" />
+                            <button type="submit">Remove</button>
+                        </form>
+                        <form method="post" asp-page-handler="MarkCompleted">
+                            <input type="hidden" name="taskId" value="@task.Id" />
+                            <button type="submit">Mark Completed</button>
+                        </form>
+                        <form method="post" asp-page-handler="EditTask">
+                            <input type="hidden" name="taskId" value="@task.Id" />
+                            <input type="text" name="editedDescription" placeholder="Edit Description" required />
+                            <input type="date" name="editedDueDate" required />
+                            <button type="submit">Edit Task</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <h2>Add New Task</h2>
+    <form method="post" asp-page-handler="AddTask">
+        <!--
+        <label>ID</label>
+        <input type="number" name="newTask.Id" />
+        -->
+        <label>Description:</label>
+        <input type="text" name="newTask.Description" placeholder="hello" required />
+        <label>Due Date:</label>
+        <input type="date" name="newTask.DueDate" value="2024-01-01" required />
+        <button type="submit">Add Task</button>
+    </form>
+
+    <br />
+    <br />
+    <h2>View Task</h2>
+    <form method="post" asp-page-handler="SearchTask">
+        <label>Enter Task ID</label>
+        <input type="number" name="SearchedId" placeholder="Task ID" required />
+        <button type="submit">Search</button>
+    </form>
+    <br />
+    <br />
+
+
+    @if (Model.SearchTask.Id != 0 && Model.SearchTask.Id != null)
+    {
+        <h2>Search Result</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Description</th>
+                    <th>Due Date</th>
+                    <th>Is Completed</th>
+                    <th>Completion Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>@Model.SearchTask.Id</td>
+                    <td>@Model.SearchTask.Description</td>
+                    <td>@Model.SearchTask.DueDate.ToString("yyyy-MM-dd")</td>
+                    <td>@Model.SearchTask.IsCompleted</td>
+                    <td>@(Model.SearchTask.CompletionDate.HasValue ? Model.SearchTask.CompletionDate.Value.ToString("yyyy-MM-dd") : "-")</td>
+                </tr>
+            </tbody>
+        </table>
+    }
+    
+
+</body>
+</html>
+
