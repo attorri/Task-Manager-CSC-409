@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/Users/christianattorri/Projects/TaskManager/TaskManager/TaskManager.csproj": {}
+    "/Users/christianattorri/Downloads/TaskManager/TaskManager/TaskManager.csproj": {}
   },
   "projects": {
-    "/Users/christianattorri/Projects/TaskManager/TaskManager/TaskManager.csproj": {
+    "/Users/christianattorri/Downloads/TaskManager/TaskManager/TaskManager.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/christianattorri/Projects/TaskManager/TaskManager/TaskManager.csproj",
+        "projectUniqueName": "/Users/christianattorri/Downloads/TaskManager/TaskManager/TaskManager.csproj",
         "projectName": "TaskManager",
-        "projectPath": "/Users/christianattorri/Projects/TaskManager/TaskManager/TaskManager.csproj",
+        "projectPath": "/Users/christianattorri/Downloads/TaskManager/TaskManager/TaskManager.csproj",
         "packagesPath": "/Users/christianattorri/.nuget/packages/",
-        "outputPath": "/Users/christianattorri/Projects/TaskManager/TaskManager/obj/",
+        "outputPath": "/Users/christianattorri/Downloads/TaskManager/TaskManager/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/Users/christianattorri/.nuget/NuGet/NuGet.Config"

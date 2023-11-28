@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "pZ/X+LJPEtfT3sTJSy8iV3GZZhgICAO+uJ/fc7u9RCLfEa6sNhFLc2SWxd+onrTvoqy+zWKRjwEVP7YJ3ZxX8A==",
+  "dgSpecHash": "wSmwayyJPS05mJUaU08vooe81p/zMVxMkr9MFVU7EINQbtfT4PknBV88Fzqjgy9Jq1OYyZmYj91om26/EDNwPA==",
   "success": true,
-  "projectFilePath": "/Users/christianattorri/Projects/TaskManager/TaskManager/TaskManager.csproj",
+  "projectFilePath": "/Users/christianattorri/Downloads/TaskManager/TaskManager/TaskManager.csproj",
   "expectedPackageFiles": [],
   "logs": []
 }
