@@ -17,17 +17,14 @@ namespace TaskManager.Pages
         // Sample in-memory storage for tasks
         private static List<TaskItem> tasks = new List<TaskItem>
         {
-            new TaskItem { Id = 1, Description = "Sample Task 1", DueDate = DateTime.Now.AddDays(7) },
-            new TaskItem { Id = 2, Description = "Sample Task 2", DueDate = DateTime.Now.AddDays(14) }
+            new TaskItem { Id = 1, Description = "Task 1", DueDate = DateTime.Now.AddDays(14) },
+            new TaskItem { Id = 2, Description = "Task 2", DueDate = DateTime.Now.AddDays(31) }
         };
 
 
         public List<TaskItem> Tasks => tasks;
 
-        public void OnGet()
-        {
-            // No action needed for now
-        }
+        
 
         // Add a new task
         public IActionResult OnPostAddTask(TaskItem newTask)
@@ -38,9 +35,6 @@ namespace TaskManager.Pages
             return RedirectToPage();
         }
 
-        // ...
-        //[BindProperty]
-        //public TaskItem EditedTask { get; set; }
 
         public IActionResult OnPostEditTask(TaskItem editedTask, int editedId, string editedDescription, DateTime editedDueDate, int taskId)
         {
@@ -131,6 +125,9 @@ namespace TaskManager.Pages
         [BindProperty]
         public int searchedID { get; set; }
 
+        [BindProperty]
+        public string searchedDescription { get; set; }
+
         public TaskItem TaskDetails { get; set; }
 
         public IActionResult OnPostGetTaskDetails()
@@ -148,6 +145,8 @@ namespace TaskManager.Pages
                     IsCompleted = TaskDetails.IsCompleted,
                     CompletionDate = TaskDetails.CompletionDate.HasValue ? TaskDetails.CompletionDate.Value.ToString("yyyy-MM-dd") : null
                 });
+                //TaskDetails = null;
+
                 // Convert JSON to bytes
                 var bytes = Encoding.UTF8.GetBytes(json);
 
@@ -163,39 +162,37 @@ namespace TaskManager.Pages
             }
         }
 
-        // API: Getting all tasks
-        public List<TaskItem> GetAllTasks() => tasks;
-
-        // API: Getting all completed tasks
-        public List<TaskItem> GetAllCompletedTasks() => tasks.Where(t => t.IsCompleted).ToList();
-
-        // API: Getting a task by Id
-        public TaskItem GetTaskById(int taskId) => tasks.FirstOrDefault(t => t.Id == taskId);
-
-        // API: Changing a task's description by Id
-        public IActionResult ChangeTaskDescriptionById(int taskId, string newDescription)
+        public IActionResult OnPostGetTaskByDescription()
         {
-            var taskToEdit = tasks.FirstOrDefault(t => t.Id == taskId);
-            if (taskToEdit != null)
+            TaskDetails = tasks.FirstOrDefault(t => t.Description == searchedDescription);
+            if (TaskDetails != null)
             {
-                taskToEdit.Description = newDescription;
-                return new OkResult();
-            }
-            return new NotFoundResult();
-        }
+                // Convert task details to a JSON object and return
+                var json = JsonSerializer.Serialize(new
+                {
+                    Id = TaskDetails.Id,
+                    Description = TaskDetails.Description,
+                    DueDate = TaskDetails.DueDate.ToString("yyyy-MM-dd"),
+                    IsCompleted = TaskDetails.IsCompleted,
+                    CompletionDate = TaskDetails.CompletionDate.HasValue ? TaskDetails.CompletionDate.Value.ToString("yyyy-MM-dd") : null
+                });
+                //TaskDetails = null;
 
-        // API: Mark a task as completed by Id
-        public IActionResult MarkTaskAsCompletedById(int taskId)
-        {
-            var taskToComplete = tasks.FirstOrDefault(t => t.Id == taskId);
-            if (taskToComplete != null)
-            {
-                taskToComplete.IsCompleted = true;
-                taskToComplete.CompletionDate = DateTime.Now;
-                return new OkResult();
+                // Convert JSON to bytes
+                var bytes = Encoding.UTF8.GetBytes(json);
+
+                // Return a FileResult with the JSON data
+                return new FileContentResult(bytes, "application/json")
+                {
+                    FileDownloadName = $"task_{searchedID}.json"
+                };
             }
-            return new NotFoundResult();
+            else
+            {
+                return Content("Task not found");
+            }
         }
+        
     }
 
     public class TaskItem
