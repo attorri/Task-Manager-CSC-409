@@ -179,6 +179,31 @@ namespace TaskManager.Pages
         private static TaskItem searchedTaskByDescription = new TaskItem();
         public TaskItem searchedTaskByDescriptionMethod => searchedTaskByDescription;
 
+        public IActionResult OnPostSearchTaskByDescription()
+        {
+            TaskDetails = tasks.FirstOrDefault(t => t.Description.Equals(searchedDescription));
+            if (TaskDetails != null)
+            {
+                searchedTaskByDescription.Id = TaskDetails.Id;
+                searchedTaskByDescription.Description = searchedDescription;
+                searchedTaskByDescription.DueDate = TaskDetails.DueDate;
+                searchedTaskByDescription.IsCompleted = TaskDetails.IsCompleted;
+            }
+
+            if (searchedTaskByDescription.Id > 0 && !(searchedTaskByDescription.Description.Equals(""))) // Second part of if statement is to check if it's a null task
+            {
+                return RedirectToPage();
+            }
+            return Content("not found");
+        }
+
+        /*
+         * OnPost method to return a JSON file
+         * Can also use this functionality to return a .txt file
+        */
+
+        /*
+
         public IActionResult OnPostGetTaskByDescription()
         {
             TaskDetails = tasks.FirstOrDefault(t => t.Description == searchedDescription);
@@ -209,7 +234,10 @@ namespace TaskManager.Pages
                 return Content("Task not found");
             }
         }
-        
+        */
+
+
+
     }
 
     public class TaskItem

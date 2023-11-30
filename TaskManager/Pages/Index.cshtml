@@ -115,10 +115,6 @@
 
     <h2>Add New Task</h2>
     <form method="post" asp-page-handler="AddTask">
-        <!--
-        <label>ID</label>
-        <input type="number" name="newTask.Id" />
-        -->
         <label>Description:</label>
         <input type="text" name="newTask.Description" placeholder="hello" required />
         <label>Due Date:</label>
@@ -159,11 +155,36 @@
     <br />
     <br />
     <h2>Search Task by Description</h2>
-    <form method="post" asp-page-handler="GetTaskByDescription">
+    <form method="post" asp-page-handler="SearchTaskByDescription">
         <label for="searchedDescription">Enter Task Description:</label>
         <input type="text" id="searchedDescription" name="searchedDescription" placeholder="Task Description" required />
         <button type="submit">Get Task Details</button>
     </form>
+    @if (Model.searchedTaskByDescriptionMethod.Id > 0)
+    {
+        <table>
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Description</th>
+                    <th>Due Date</th>
+                    <th>Completion Status</th>
+                    <th>Completion Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>@Model.searchedTaskByDescriptionMethod.Id</td>
+                    <td>@Model.searchedTaskByDescriptionMethod.Description</td>
+                    <td>@Model.searchedTaskByDescriptionMethod.DueDate.ToString("yyyy-MM-dd")</td>
+                    <td>@(Model.searchedTaskByDescriptionMethod.IsCompleted ? "Complete" : "Incomplete")</td>
+                    <td>@(Model.searchedTaskByDescriptionMethod.CompletionDate.HasValue ? Model.searchedTaskByDescriptionMethod.CompletionDate.Value.ToString("yyyy-MM-dd"): "-")</td>
+                </tr>
+            </tbody>
+        </table>
+    }
+    <br />
+    <br />
     <h2>Completed Tasks</h2>
     <table>
         <thead>
