@@ -136,41 +136,6 @@ namespace TaskManager.Pages
         public List<TaskItem> searchedTasksList { get; set; } = new List<TaskItem>();
         
 
-
-        public IActionResult OnPostGetTaskDetails()
-        {
-            TaskDetails = tasks.FirstOrDefault(t => t.Id == searchedID);
-
-            if (TaskDetails != null)
-            {
-                // Convert task details to a JSON object and return
-                var json = JsonSerializer.Serialize(new
-                {
-                    Id = TaskDetails.Id,
-                    Description = TaskDetails.Description,
-                    DueDate = TaskDetails.DueDate.ToString("yyyy-MM-dd"),
-                    IsCompleted = TaskDetails.IsCompleted,
-                    CompletionDate = TaskDetails.CompletionDate.HasValue ? TaskDetails.CompletionDate.Value.ToString("yyyy-MM-dd") : null
-                });
-                //TaskDetails = null;
-
-                // Convert JSON to bytes
-                var bytes = Encoding.UTF8.GetBytes(json);
-
-                // Return a FileResult with the JSON data
-                return new FileContentResult(bytes, "application/json")
-                {
-                    FileDownloadName = $"task_{searchedID}.json"
-                };
-            }
-            else
-            {
-                return Content("Task not found");
-            }
-        }
-
-        
-
         public static TaskItem searchedTaskByID = new TaskItem();
         public TaskItem searchedTasksIDMethod => searchedTaskByID;
 
