@@ -130,6 +130,13 @@ namespace TaskManager.Pages
 
         public TaskItem TaskDetails { get; set; }
 
+        [BindProperty]
+        public TaskItem searchedTask { get; set; }
+
+        public List<TaskItem> searchedTasksList { get; set; } = new List<TaskItem>();
+        
+
+
         public IActionResult OnPostGetTaskDetails()
         {
             TaskDetails = tasks.FirstOrDefault(t => t.Id == searchedID);
@@ -161,6 +168,51 @@ namespace TaskManager.Pages
                 return Content("Task not found");
             }
         }
+
+        
+
+        public static TaskItem searchedTaskByID = new TaskItem();
+        public TaskItem searchedTasksIDMethod => searchedTaskByID;
+
+        public IActionResult OnPostSearchTaskByID()
+        {
+            if (searchedID>0 && searchedID<=tasks.Count)
+            {
+                TaskDetails = tasks.FirstOrDefault(t => t.Id == searchedID);
+                if (TaskDetails!= null)
+                {
+                    /*
+                     * In case I convert it back to string stack
+                    String Id = TaskDetails.Id.ToString();
+                    String Description = TaskDetails.Description;
+                    String DueDate = TaskDetails.DueDate.ToString();
+                    String CompletionStatus = "Incomplete";
+                    if (TaskDetails.IsCompleted==true)
+                    {
+                        CompletionStatus = "Complete";
+                    }
+                    searchedTaskByID.Push(Id);
+                    searchedTaskByID.Push(Description);
+                    searchedTaskByID.Push(DueDate);
+                    searchedTaskByID.Push(CompletionStatus);
+                    */
+                    searchedTaskByID.Id = searchedID;
+                    searchedTaskByID.Description = TaskDetails.Description;
+                    searchedTaskByID.DueDate = TaskDetails.DueDate;
+                    searchedTaskByID.IsCompleted = TaskDetails.IsCompleted;
+                }
+                
+                if (searchedTaskByID.Id>0 && !(searchedTaskByID.Description.Equals(""))) // Second part of if statement is to check if it's a null task
+                    return RedirectToPage();
+            }
+            return RedirectToPage();
+
+            // returning "Task Not Found" is very sloppy and unprofessional, so i'm not currently doing that
+            //return Content("Task Not Found");
+        }
+
+        private static TaskItem searchedTaskByDescription = new TaskItem();
+        public TaskItem searchedTaskByDescriptionMethod => searchedTaskByDescription;
 
         public IActionResult OnPostGetTaskByDescription()
         {
