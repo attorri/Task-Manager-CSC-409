@@ -17,8 +17,8 @@ namespace TaskManager.Pages
         // Sample in-memory storage for tasks
         private static List<TaskItem> tasks = new List<TaskItem>
         {
-            new TaskItem { Id = 1, Description = "Task 1", DueDate = DateTime.Now.AddDays(14) },
-            new TaskItem { Id = 2, Description = "Task 2", DueDate = DateTime.Now.AddDays(31) }
+            new TaskItem { Id = 1, Description = "Buy Mom Christmas Present", DueDate = DateTime.Now.AddDays(1) },
+            new TaskItem { Id = 2, Description = "Build a House", DueDate = DateTime.Now.AddDays(366) }
         };
 
 
@@ -133,7 +133,6 @@ namespace TaskManager.Pages
         [BindProperty]
         public TaskItem searchedTask { get; set; }
 
-        public List<TaskItem> searchedTasksList { get; set; } = new List<TaskItem>();
         
 
         public static TaskItem searchedTaskByID = new TaskItem();
@@ -194,7 +193,7 @@ namespace TaskManager.Pages
             {
                 return RedirectToPage();
             }
-            return Content("not found");
+            return Content("Task with a description of '" + searchedDescription+ "' not found");
         }
 
         /*
@@ -236,6 +235,40 @@ namespace TaskManager.Pages
         }
         */
 
+        public IActionResult OnPostDownloadTasksJson()
+        {
+            
+
+            Stack<String> tasksInJSON = new Stack<string>();
+            for (var j=(tasks.Count-1); j>=0; j--)
+            {
+                tasksInJSON.Push("Completion Date - " + tasks.ElementAt(j).CompletionDate.ToString());
+                if (tasks.ElementAt(j).IsCompleted == true)
+                {
+                    tasksInJSON.Pop();
+                    tasksInJSON.Push("Complete");
+                }
+                tasksInJSON.Push("Incomplete");
+                tasksInJSON.Push("Due Date - " + tasks.ElementAt(j).DueDate.ToString());
+                tasksInJSON.Push("Description - " + tasks.ElementAt(j).Description);
+                tasksInJSON.Push("ID - " + tasks.ElementAt(j).Id.ToString());
+
+                tasksInJSON.Push("Task " + tasks.ElementAt(j).Id.ToString());
+            }
+
+            var json = JsonSerializer.Serialize(new
+            {
+                tasksInJSON
+            }) ;
+
+            var bytes = Encoding.UTF8.GetBytes(json);
+
+            
+            return new FileContentResult(bytes, "application/json")
+            {
+                FileDownloadName = $"tasks_at_{DateTime.Now.ToString("yyyy-MM-dd")}.json"
+            };
+        }
 
 
     }
