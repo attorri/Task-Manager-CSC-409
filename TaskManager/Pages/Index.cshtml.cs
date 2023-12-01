@@ -237,8 +237,6 @@ namespace TaskManager.Pages
 
         public IActionResult OnPostDownloadTasksJson()
         {
-            
-
             Stack<String> tasksInJSON = new Stack<string>();
             for (var j=(tasks.Count-1); j>=0; j--)
             {
@@ -249,7 +247,7 @@ namespace TaskManager.Pages
                     tasksInJSON.Push("Complete");
                 }
                 tasksInJSON.Push("Incomplete");
-                tasksInJSON.Push("Due Date - " + tasks.ElementAt(j).DueDate.ToString());
+                tasksInJSON.Push("Due Date - " + tasks.ElementAt(j).DueDate.ToString("MM-dd-yyyy"));
                 tasksInJSON.Push("Description - " + tasks.ElementAt(j).Description);
                 tasksInJSON.Push("ID - " + tasks.ElementAt(j).Id.ToString());
 
@@ -266,7 +264,7 @@ namespace TaskManager.Pages
             
             return new FileContentResult(bytes, "application/json")
             {
-                FileDownloadName = $"tasks_at_{DateTime.Now.ToString("yyyy-MM-dd")}.json"
+                FileDownloadName = $"tasks_at_{DateTime.Now.ToString("MM-dd-yyyy")}.json"
             };
         }
 

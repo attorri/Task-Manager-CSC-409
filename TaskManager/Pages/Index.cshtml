@@ -116,9 +116,9 @@
                 <tr>
                     <td>@task.Id</td>
                     <td>@task.Description</td>
-                    <td>@task.DueDate.ToString("yyyy-MM-dd")</td>
+                    <td>@task.DueDate.ToString("MM-dd-yyyy")</td>
                     <td>@(task.IsCompleted ? "Complete" : "Incomplete")</td>
-                    <td>@(task.CompletionDate.HasValue ? task.CompletionDate.Value.ToString("yyyy-MM-dd") : "-")</td>
+                    <td>@(task.CompletionDate.HasValue ? task.CompletionDate.Value.ToString("MM-dd-yyyy") : "-")</td>
                     <td>
                         <form method="post" asp-page-handler="RemoveTask">
                             <input type="hidden" name="taskId" value="@task.Id" />
@@ -175,7 +175,7 @@
                 <tr>
                     <td>@Model.searchedTasksIDMethod.Id</td>
                     <td>@Model.searchedTasksIDMethod.Description</td>
-                    <td>@Model.searchedTasksIDMethod.DueDate.ToString("yyyy-MM-dd")</td>
+                    <td>@Model.searchedTasksIDMethod.DueDate.ToString("MM-dd-yyyy")</td>
                     <td>@(Model.searchedTasksIDMethod.IsCompleted ? "Complete" : "Incomplete")</td>
                     <td>@(Model.searchedTasksIDMethod.CompletionDate.HasValue ? Model.searchedTasksIDMethod.CompletionDate.Value.ToString("yyyy-MM-dd"): "-")</td>
                 </tr>
@@ -209,7 +209,7 @@
                 <tr>
                     <td>@Model.searchedTaskByDescriptionMethod.Id</td>
                     <td>@Model.searchedTaskByDescriptionMethod.Description</td>
-                    <td>@Model.searchedTaskByDescriptionMethod.DueDate.ToString("yyyy-MM-dd")</td>
+                    <td>@Model.searchedTaskByDescriptionMethod.DueDate.ToString("MM-dd-yyyy")</td>
                     <td>@(Model.searchedTaskByDescriptionMethod.IsCompleted ? "Complete" : "Incomplete")</td>
                     <td>@(Model.searchedTaskByDescriptionMethod.CompletionDate.HasValue ? Model.searchedTaskByDescriptionMethod.CompletionDate.Value.ToString("yyyy-MM-dd"): "-")</td>
                 </tr>
@@ -237,8 +237,8 @@
                     <tr>
                         <td>@task.Id</td>
                         <td>@task.Description</td>
-                        <td>@task.DueDate.ToString("yyyy-MM-dd")</td>
-                        <td>@(task.CompletionDate.HasValue ? task.CompletionDate.Value.ToString("yyyy-MM-dd") : "-")</td>
+                        <td>@task.DueDate.ToString("MM-dd-yyyy")</td>
+                        <td>@(task.CompletionDate.HasValue ? task.CompletionDate.Value.ToString("MM-dd-yyyy") : "-")</td>
                     </tr>
                 }
             }
@@ -246,7 +246,7 @@
     </table>
     <h2 style="text-align:left">Show all Tasks</h2>
     <form method="post" asp-page-handler="DownloadTasksJson">
-        <button type="submit">!</button>
+        <button type="submit">⬇️</button>
     </form>
 </body>
 </html>
