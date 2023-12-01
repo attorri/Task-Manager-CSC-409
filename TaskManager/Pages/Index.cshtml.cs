@@ -269,6 +269,51 @@ namespace TaskManager.Pages
         }
 
 
+        public IActionResult OnPostChangeDescriptionByID(int IDSearched, String newDescription)
+        {
+            if (IDSearched!=0 && IDSearched<=tasks.Count)
+            {
+                tasks.ElementAt(IDSearched).Description = newDescription;
+                return RedirectToPage();
+            }
+            return Content("No task with ID of " + IDSearched);
+        }
+
+        public IActionResult OnPostMarkTaskAsCompletedByID(int IDSearched)
+        {
+            if (IDSearched != 0 && IDSearched <= tasks.Count)
+            {
+                tasks.ElementAt(IDSearched).IsCompleted = true;
+                return RedirectToPage();
+            }
+            return Content("No task with ID of " + IDSearched);
+        }
+
+        [BindProperty]
+        public String CompletionStatus { get; set; }
+
+        
+        public static bool CorrectEnteredCompletionStatus = false;
+        public bool CorrectCompletionStatus => CorrectEnteredCompletionStatus;
+
+        public static bool SearchForCompletedTasks = false;
+        public bool CompletionStatusTasks => SearchForCompletedTasks;
+
+        public IActionResult OnPostFilterTasksByCompletionStatus(String EnteredCompletionStatus)
+        {
+            if (EnteredCompletionStatus.Equals("Complete") || EnteredCompletionStatus.Equals("complete") || EnteredCompletionStatus.Equals("Incomplete") || EnteredCompletionStatus.Equals("incomplete"))
+            {
+                CorrectEnteredCompletionStatus = true;
+                if (EnteredCompletionStatus.Equals("Complete") || EnteredCompletionStatus.Equals("complete"))
+                {
+                    SearchForCompletedTasks = true;
+                }
+                else
+                    SearchForCompletedTasks = false;
+            }
+            return RedirectToPage();
+        }
+
     }
 
     public class TaskItem

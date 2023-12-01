@@ -248,5 +248,86 @@
     <form method="post" asp-page-handler="DownloadTasksJson">
         <button type="submit">⬇️</button>
     </form>
+    <br />
+    <h2 style="text-align:left">Change Task's Description By ID</h2>
+    <form method="post" asp-page-handler="ChangeDescriptionByID">
+        <input type="number" id="IDSearched" name="IDSearched" placeholder="Enter Task ID" required />
+        <input type="text" id="newDescription" name="newDescription" placeholder="New Description" required />
+        <button type="submit">✅</button>
+    </form>
+    <br />
+    <br />
+    <h2 style="text-align:left">Mark Task As Completed By ID</h2>
+    <form method="post" asp-page-handler="ChangeDescriptionByID">
+        <input type="number" id="IDSearched" name="IDSearched" placeholder="Enter Task ID" required />
+        <button type="submit">✅</button>
+    </form>
+    <br />
+    <br />
+    <h2 style="text-align: left">Filter For Tasks By Completion Status</h2>
+    <form method="post" asp-page-handler="FilterTasksByCompletionStatus">
+        <input type="text" id="EnteredCompletionStatus" name="EnteredCompletionStatus" placeholder="Completion Status" required />
+        <button type="submit">Filter</button>
+    </form>
+    @if (Model.CorrectCompletionStatus == true)
+    {
+
+        if (Model.CompletionStatusTasks == true)
+        {
+            <table class="search-result-table">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Description</th>
+                        <th>Due Date</th>
+                        <th>Completion Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var task in Model.Tasks)
+                    {
+                        if (task.IsCompleted == true)
+                        {
+                            <tr>
+                                <td>@task.Id</td>
+                                <td>@task.Description</td>
+                                <td>@task.DueDate.ToString("MM-dd-yyyy")</td>
+                                <td>@(task.CompletionDate.HasValue ? task.CompletionDate.Value.ToString("MM-dd-yyyy") : "-")</td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        }
+        if (Model.CompletionStatusTasks == false)
+        {
+            <table class="search-result-table">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Description</th>
+                        <th>Due Date</th>
+                        <th>Completion Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var task in Model.Tasks)
+                    {
+                        if (@task.IsCompleted == false)
+                        {
+                            <tr>
+                                <td>@task.Id</td>
+                                <td>@task.Description</td>
+                                <td>@task.DueDate.ToString("MM-dd-yyyy")</td>
+                                <td>@(task.CompletionDate.HasValue ? task.CompletionDate.Value.ToString("MM-dd-yyyy") : "-")</td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        }
+    }
+    <br />
+    <br />
 </body>
 </html>
