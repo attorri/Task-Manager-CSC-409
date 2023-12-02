@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Text.Json;
+using System.Reflection;
 
 namespace TaskManager.Pages
 {
@@ -289,8 +290,7 @@ namespace TaskManager.Pages
             return Content("No task with ID of " + IDSearched);
         }
 
-        [BindProperty]
-        public String CompletionStatus { get; set; }
+        
 
         
         public static bool CorrectEnteredCompletionStatus = false;
@@ -304,7 +304,7 @@ namespace TaskManager.Pages
             if (EnteredCompletionStatus.Equals("Complete") || EnteredCompletionStatus.Equals("complete") || EnteredCompletionStatus.Equals("Incomplete") || EnteredCompletionStatus.Equals("incomplete"))
             {
                 CorrectEnteredCompletionStatus = true;
-                if (EnteredCompletionStatus.Equals("Complete") || EnteredCompletionStatus.Equals("complete"))
+                if (string.Equals(EnteredCompletionStatus, "Complete", StringComparison.OrdinalIgnoreCase))
                 {
                     SearchForCompletedTasks = true;
                 }
@@ -312,6 +312,20 @@ namespace TaskManager.Pages
                     SearchForCompletedTasks = false;
             }
             return RedirectToPage();
+        }
+
+        public static DateTime BeforeDate;
+        public DateTime DueDateFilter => BeforeDate;
+
+        public static String DateFilterCriteria = "";
+        public String DateFilter => DateFilterCriteria;
+
+        public IActionResult OnPostFilterByDueDate (DateTime EnteredDueDate, String BeforeOrAfter)
+        {
+            BeforeDate = EnteredDueDate;
+            DateFilterCriteria = BeforeOrAfter;
+            return RedirectToPage();
+            //return Content("No tasks due before " + EnteredDueDate);
         }
 
     }

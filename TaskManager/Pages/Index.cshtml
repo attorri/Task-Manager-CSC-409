@@ -217,8 +217,6 @@
         </table>
     }
 
-    <!-- Your existing content -->
-    <!-- Completed Tasks -->
     <h2 style="text-align:left">Completed Tasks</h2>
     <table class="search-result-table">
         <thead>
@@ -271,63 +269,80 @@
     </form>
     @if (Model.CorrectCompletionStatus == true)
     {
-
-        if (Model.CompletionStatusTasks == true)
-        {
-            <table class="search-result-table">
-                <thead>
-                    <tr>
-                        <th>Id</th>
-                        <th>Description</th>
-                        <th>Due Date</th>
-                        <th>Completion Date</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var task in Model.Tasks)
+        <table class="search-result-table">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Description</th>
+                    <th>Due Date</th>
+                    <th>Completion Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var task in Model.Tasks)
+                {
+                    if (task.IsCompleted == Model.CompletionStatusTasks)
                     {
-                        if (task.IsCompleted == true)
-                        {
-                            <tr>
-                                <td>@task.Id</td>
-                                <td>@task.Description</td>
-                                <td>@task.DueDate.ToString("MM-dd-yyyy")</td>
-                                <td>@(task.CompletionDate.HasValue ? task.CompletionDate.Value.ToString("MM-dd-yyyy") : "-")</td>
-                            </tr>
-                        }
+                        <tr>
+                            <td>@task.Id</td>
+                            <td>@task.Description</td>
+                            <td>@task.DueDate.ToString("MM-dd-yyyy")</td>
+                            <td>@(task.CompletionDate.HasValue ? task.CompletionDate.Value.ToString("MM-dd-yyyy") : "-")</td>
+                        </tr>
                     }
-                </tbody>
-            </table>
-        }
-        if (Model.CompletionStatusTasks == false)
-        {
-            <table class="search-result-table">
-                <thead>
-                    <tr>
-                        <th>Id</th>
-                        <th>Description</th>
-                        <th>Due Date</th>
-                        <th>Completion Date</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var task in Model.Tasks)
-                    {
-                        if (@task.IsCompleted == false)
-                        {
-                            <tr>
-                                <td>@task.Id</td>
-                                <td>@task.Description</td>
-                                <td>@task.DueDate.ToString("MM-dd-yyyy")</td>
-                                <td>@(task.CompletionDate.HasValue ? task.CompletionDate.Value.ToString("MM-dd-yyyy") : "-")</td>
-                            </tr>
-                        }
-                    }
-                </tbody>
-            </table>
-        }
+                }
+            </tbody>
+        </table>
     }
     <br />
     <br />
+    <h2 style="text-align: left">Filter By Due Date</h2>
+    <form method="post" asp-page-handler="FilterByDueDate">
+
+        <input type="date" id="EnteredDueDate" name="EnteredDueDate" required />
+        <input type="text" id="BeforeOrAfter" name="BeforeOrAfter" placeholder="Criteria (Before or After)" required />
+        <button type="submit">Filter</button>
+    </form>
+    <br />
+    <br />
+    @if (Model.DueDateFilter >= DateTime.Now)
+    {
+        <table class="search-result-table">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Description</th>
+                    <th>Due Date</th>
+                    <th>Completion Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var task in Model.Tasks)
+                {
+                    if (task.DueDate <= Model.DueDateFilter && (string.Equals(Model.DateFilter, "Before", StringComparison.OrdinalIgnoreCase)))
+                    {
+                        <tr>
+                            <td>@task.Id</td>
+                            <td>@task.Description</td>
+                            <td>@task.DueDate.ToString("MM-dd-yyyy")</td>
+                            <td>@(task.CompletionDate.HasValue ? task.CompletionDate.Value.ToString("MM-dd-yyyy") : "-")</td>
+                        </tr>
+                    }
+                    else if (task.DueDate >= Model.DueDateFilter && (string.Equals(Model.DateFilter, "After", StringComparison.OrdinalIgnoreCase)))
+                    {
+                        <tr>
+                            <td>@task.Id</td>
+                            <td>@task.Description</td>
+                            <td>@task.DueDate.ToString("MM-dd-yyyy")</td>
+                            <td>@(task.CompletionDate.HasValue ? task.CompletionDate.Value.ToString("MM-dd-yyyy") : "-")</td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    }
+    <br />
+    <br />
+
 </body>
 </html>
