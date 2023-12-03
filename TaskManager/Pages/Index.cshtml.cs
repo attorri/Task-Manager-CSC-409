@@ -146,21 +146,6 @@ namespace TaskManager.Pages
                 TaskDetails = tasks.FirstOrDefault(t => t.Id == searchedID);
                 if (TaskDetails!= null)
                 {
-                    /*
-                     * In case I convert it back to string stack
-                    String Id = TaskDetails.Id.ToString();
-                    String Description = TaskDetails.Description;
-                    String DueDate = TaskDetails.DueDate.ToString();
-                    String CompletionStatus = "Incomplete";
-                    if (TaskDetails.IsCompleted==true)
-                    {
-                        CompletionStatus = "Complete";
-                    }
-                    searchedTaskByID.Push(Id);
-                    searchedTaskByID.Push(Description);
-                    searchedTaskByID.Push(DueDate);
-                    searchedTaskByID.Push(CompletionStatus);
-                    */
                     searchedTaskByID.Id = searchedID;
                     searchedTaskByID.Description = TaskDetails.Description;
                     searchedTaskByID.DueDate = TaskDetails.DueDate;
@@ -199,6 +184,7 @@ namespace TaskManager.Pages
 
         /*
          * OnPost method to return a JSON file
+         * 
          * Can also use this functionality to return a .txt file
         */
 
@@ -301,7 +287,7 @@ namespace TaskManager.Pages
 
         public IActionResult OnPostFilterTasksByCompletionStatus(String EnteredCompletionStatus)
         {
-            if (EnteredCompletionStatus.Equals("Complete") || EnteredCompletionStatus.Equals("complete") || EnteredCompletionStatus.Equals("Incomplete") || EnteredCompletionStatus.Equals("incomplete"))
+            if (string.Equals(EnteredCompletionStatus, "Complete", StringComparison.OrdinalIgnoreCase) || string.Equals(EnteredCompletionStatus, "Incomplete", StringComparison.OrdinalIgnoreCase))
             {
                 CorrectEnteredCompletionStatus = true;
                 if (string.Equals(EnteredCompletionStatus, "Complete", StringComparison.OrdinalIgnoreCase))
