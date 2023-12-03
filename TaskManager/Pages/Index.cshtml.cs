@@ -15,7 +15,8 @@ namespace TaskManager.Pages
     {
         
 
-        // Sample in-memory storage for tasks
+        // Dummy Tasks
+
         private static List<TaskItem> tasks = new List<TaskItem>
         {
             new TaskItem { Id = 1, Description = "Buy Mom Christmas Present", DueDate = DateTime.Now.AddDays(1) },
@@ -27,7 +28,6 @@ namespace TaskManager.Pages
 
         
 
-        // Add a new task
         public IActionResult OnPostAddTask(TaskItem newTask)
         {
             if (newTask.Id == 0)
@@ -96,12 +96,8 @@ namespace TaskManager.Pages
             }
             return RedirectToPage();
         }
-        //Testing Testingggg
-
-        // ...
 
 
-        // Remove a task
         public IActionResult OnPostRemoveTask(int taskId)
         {
             var taskToRemove = tasks.FirstOrDefault(t => t.Id == taskId);
@@ -111,7 +107,8 @@ namespace TaskManager.Pages
             }
             return RedirectToPage();
         }
-        // Mark a task as completed
+
+
         public IActionResult OnPostMarkCompleted(int taskId)
         {
             var taskToComplete = tasks.FirstOrDefault(t => t.Id == taskId);
@@ -182,46 +179,7 @@ namespace TaskManager.Pages
             return Content("Task with a description of '" + searchedDescription+ "' not found");
         }
 
-        /*
-         * OnPost method to return a JSON file
-         * 
-         * Can also use this functionality to return a .txt file
-        */
-
-        /*
-
-        public IActionResult OnPostGetTaskByDescription()
-        {
-            TaskDetails = tasks.FirstOrDefault(t => t.Description == searchedDescription);
-            if (TaskDetails != null)
-            {
-                // Convert task details to a JSON object and return
-                var json = JsonSerializer.Serialize(new
-                {
-                    Id = TaskDetails.Id,
-                    Description = TaskDetails.Description,
-                    DueDate = TaskDetails.DueDate.ToString("yyyy-MM-dd"),
-                    IsCompleted = TaskDetails.IsCompleted,
-                    CompletionDate = TaskDetails.CompletionDate.HasValue ? TaskDetails.CompletionDate.Value.ToString("yyyy-MM-dd") : null
-                });
-                //TaskDetails = null;
-
-                // Convert JSON to bytes
-                var bytes = Encoding.UTF8.GetBytes(json);
-
-                // Return a FileResult with the JSON data
-                return new FileContentResult(bytes, "application/json")
-                {
-                    FileDownloadName = $"task_{searchedID}.json"
-                };
-            }
-            else
-            {
-                return Content("Task not found");
-            }
-        }
-        */
-
+        
         public IActionResult OnPostDownloadTasksJson()
         {
             Stack<String> tasksInJSON = new Stack<string>();
@@ -311,7 +269,6 @@ namespace TaskManager.Pages
             BeforeDate = EnteredDueDate;
             DateFilterCriteria = BeforeOrAfter;
             return RedirectToPage();
-            //return Content("No tasks due before " + EnteredDueDate);
         }
 
     }

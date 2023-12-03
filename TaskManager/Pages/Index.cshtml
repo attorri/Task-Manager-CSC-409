@@ -149,8 +149,6 @@
         <button type="submit">Add Task</button>
     </form>
 
-    <!-- Your existing content -->
-    <!-- Search Task by ID -->
     <h2 style="text-align:left">Search Task by ID</h2>
     <form method="post" asp-page-handler="SearchTaskById">
         <label for="searchedID">Enter Task ID:</label>
@@ -158,7 +156,6 @@
         <button type="submit">Get Task Details</button>
     </form>
 
-    <!-- Display search results for ID -->
     @if (Model.searchedTasksIDMethod.Id > 0)
     {
         <table class="search-result-table">
@@ -183,8 +180,6 @@
         </table>
     }
 
-    <!-- Your existing content -->
-    <!-- Search Task by Description -->
     <h2 style="text-align:left">Search Task by Description</h2>
     <form method="post" asp-page-handler="SearchTaskByDescription">
         <label for="searchedDescription">Enter Task Description:</label>
@@ -192,7 +187,6 @@
         <button type="submit">Get Task Details</button>
     </form>
 
-    <!-- Display search results for Description -->
     @if (Model.searchedTaskByDescriptionMethod.Id > 0)
     {
         <table class="search-result-table">
