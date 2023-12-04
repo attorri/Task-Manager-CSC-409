@@ -216,7 +216,7 @@ namespace TaskManager.Pages
         {
             if (IDSearched!=0 && IDSearched<=tasks.Count)
             {
-                tasks.ElementAt(IDSearched).Description = newDescription;
+                tasks.ElementAt(IDSearched-1).Description = newDescription; // because arrays start at 0 and the id's start at 1
                 return RedirectToPage();
             }
             return Content("No task with ID of " + IDSearched);
