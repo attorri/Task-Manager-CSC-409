@@ -47,13 +47,10 @@ namespace TaskManager.Pages
                     editedTask.Id = editedId;
                     editedTask.Description = editedDescription;
                     editedTask.DueDate = editedDueDate;
-
-                    // Update the existing task with the edited values
                     existingTask.Id = editedTask.Id;
                     existingTask.Description = editedTask.Description;
                     existingTask.DueDate = editedTask.DueDate;
 
-                    // Optionally, update other properties as needed
 
                     // Clear the edited task property
                     editedTask = null;
