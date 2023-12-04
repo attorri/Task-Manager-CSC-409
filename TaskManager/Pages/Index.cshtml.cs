@@ -20,8 +20,9 @@ namespace TaskManager.Pages
         private static List<TaskItem> tasks = new List<TaskItem>
         {
             new TaskItem { Id = 1, Description = "Buy Mom Christmas Present", DueDate = DateTime.Now.AddDays(1) },
-            new TaskItem { Id = 2, Description = "Build a House", DueDate = DateTime.Now.AddDays(366) }
-        };
+            new TaskItem { Id = 2, Description = "Build a House", DueDate = DateTime.Now.AddDays(366) },
+            new TaskItem { Id = 3, Description = "Move Out", DueDate = new DateTime(2025,04,020,00,00,00) }
+    };
 
 
         public List<TaskItem> Tasks => tasks;
