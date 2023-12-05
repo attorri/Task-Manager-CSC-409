@@ -17,7 +17,7 @@ namespace TaskManager.Pages
 
         // Dummy Tasks
 
-        private static List<TaskItem> tasks = new List<TaskItem>
+        public static List<TaskItem> tasks = new List<TaskItem>
         {
             new TaskItem { Id = 1, Description = "Buy Mom Christmas Present", DueDate = DateTime.Now.AddDays(1) },
             new TaskItem { Id = 2, Description = "Build a House", DueDate = DateTime.Now.AddDays(366) },
