@@ -99,7 +99,7 @@ namespace TaskManager.Controllers
 
         // Search by Description (BONUS)
 
-        [Route("{description}")]
+        [Route("{description}", Order = 1)]
         public string SearchDescription(String description)
         {
             var task = IndexModel.tasks.FirstOrDefault(t => t.Description == description);
