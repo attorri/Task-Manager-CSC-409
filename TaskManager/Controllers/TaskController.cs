@@ -67,7 +67,7 @@ namespace TaskManager.Controllers
 
             task.IsCompleted = true;
             task.CompletionDate = DateTime.Now;
-            return "Success";
+            return "Success! Task "+ id + " is now complete!";
         }
 
         // Changing Task's Description by Id
@@ -84,10 +84,15 @@ namespace TaskManager.Controllers
 
             String CompletionStatus = "Incomplete";
 
-            if (task.IsCompleted == true)
-                CompletionStatus = "Complete";
-
             String taskToReturn = "{ ID: " + task.Id.ToString() + ", Description: " + task.Description + ", Due Date: " + task.DueDate.ToString() + ", Completion Status: " + CompletionStatus + " }";
+
+            if (task.IsCompleted == true)
+            {
+                CompletionStatus = "Complete";
+                taskToReturn = "{ ID: " + task.Id.ToString() + ", Description: " + task.Description + ", Due Date: " + task.DueDate.ToString() + ", Completion Status: " + CompletionStatus + ", Completion Date: " + task.CompletionDate.ToString() + " }";
+            }
+
+            
 
             return "Success! New Task #" + id + "- " + taskToReturn;
         }
@@ -105,10 +110,14 @@ namespace TaskManager.Controllers
 
             String CompletionStatus = "Incomplete";
 
-            if (task.IsCompleted == true)
-                CompletionStatus = "Complete";
-
             String taskToReturn = "{ ID: " + task.Id.ToString() + ", Description: " + task.Description + ", Due Date: " + task.DueDate.ToString() + ", Completion Status: " + CompletionStatus + " }";
+
+            if (task.IsCompleted == true)
+            {
+                CompletionStatus = "Complete";
+                taskToReturn = "{ ID: " + task.Id.ToString() + ", Description: " + task.Description + ", Due Date: " + task.DueDate.ToString() + ", Completion Status: " + CompletionStatus + ", Completion Date: " + task.CompletionDate.ToString() + " }";
+            }
+
             return taskToReturn;
         }
 
@@ -123,10 +132,14 @@ namespace TaskManager.Controllers
 
             String CompletionStatus = "Incomplete";
 
-            if (task.IsCompleted == true)
-                CompletionStatus = "Complete";
-
             String taskToReturn = "{ ID: " + task.Id.ToString() + ", Description: " + task.Description + ", Due Date: " + task.DueDate.ToString() + ", Completion Status: " + CompletionStatus + " }";
+
+            if (task.IsCompleted == true)
+            {
+                CompletionStatus = "Complete";
+                taskToReturn = "{ ID: " + task.Id.ToString() + ", Description: " + task.Description + ", Due Date: " + task.DueDate.ToString() + ", Completion Status: " + CompletionStatus + ", Completion Date: " + task.CompletionDate.ToString() + " }";
+            }
+
             return taskToReturn;
         }
 
@@ -141,8 +154,17 @@ namespace TaskManager.Controllers
 
             foreach (var task in IndexModel.tasks)
             {
+
+                String CompletionStatus = "Incomplete";
                 
-                String taskToAdd = "{ ID: " + task.Id.ToString() + ", Description: " + task.Description + ", Due Date: " + task.DueDate.ToString() + ", Completion Status: Complete" + ", Completion Date: " + task.CompletionDate.ToString() + " }, ";
+                String taskToAdd = "{ ID: " + task.Id.ToString() + ", Description: " + task.Description + ", Due Date: " + task.DueDate.ToString() + ", Completion Status: " + CompletionStatus + " }, ";
+
+                if (task.IsCompleted == true)
+                {
+                    CompletionStatus = "Complete";
+                    taskToAdd = "{ ID: " + task.Id.ToString() + ", Description: " + task.Description + ", Due Date: " + task.DueDate.ToString() + ", Completion Status: " + CompletionStatus + ", Completion Date: " + task.CompletionDate.ToString() + " }, ";
+                }
+
                 AllTasksStack.Push(taskToAdd);
             }
 
