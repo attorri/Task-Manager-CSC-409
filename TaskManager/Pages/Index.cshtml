@@ -132,6 +132,8 @@
                             <input type="hidden" name="taskId" value="@task.Id" />
                             <input type="text" name="editedDescription" placeholder="Edit Description" required />
                             <input type="date" name="editedDueDate" placeholder="Edit Due Date" required />
+                            <br />
+                            <br />
                             <button type="submit" class="edit-button">Edit Task</button>
                         </form>
                     </td>
@@ -335,6 +337,49 @@
             </tbody>
         </table>
     }
+    <br />
+    <br />
+    <h2 style="text-align:left">Filter By Completion Date</h2>
+    <form method="post" asp-page-handler="FilterByCD">
+
+        <input type="date" id="EnteredCD" name="EnteredCD" required />
+        <input type="text" id="BeforeOrAfter" name="BeforeOrAfter" placeholder="Criteria (Before or After)" required />
+        <button type="submit">Filter</button>
+    </form>
+    <br />
+    <table class="search-result-table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Description</th>
+                <th>Due Date</th>
+                <th>Completion Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var task in Model.Tasks)
+            {
+                if (task.CompletionDate <= Model.CDPointer && (string.Equals(Model.CDFilter, "Before", StringComparison.OrdinalIgnoreCase)))
+                {
+                    <tr>
+                        <td>@task.Id</td>
+                        <td>@task.Description</td>
+                        <td>@task.DueDate.ToString("MM-dd-yyyy")</td>
+                        <td>@(task.CompletionDate.HasValue ? task.CompletionDate.Value.ToString("MM-dd-yyyy") : "-")</td>
+                    </tr>
+                }
+                else if (task.CompletionDate >= Model.CDPointer && (string.Equals(Model.CDFilter, "After", StringComparison.OrdinalIgnoreCase)))
+                {
+                    <tr>
+                        <td>@task.Id</td>
+                        <td>@task.Description</td>
+                        <td>@task.DueDate.ToString("MM-dd-yyyy")</td>
+                        <td>@(task.CompletionDate.HasValue ? task.CompletionDate.Value.ToString("MM-dd-yyyy") : "-")</td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
     <br />
     <br />
 

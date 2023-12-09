@@ -22,7 +22,7 @@ namespace TaskManager.Pages
             new TaskItem { Id = 1, Description = "Buy Mom Christmas Present", DueDate = DateTime.Now.AddDays(1) },
             new TaskItem { Id = 2, Description = "Build a House", DueDate = DateTime.Now.AddDays(366) },
             new TaskItem { Id = 3, Description = "Move Out", DueDate = new DateTime(2025,04,020,00,00,00) }
-    };
+        };
 
 
         public List<TaskItem> Tasks => tasks;
@@ -31,8 +31,7 @@ namespace TaskManager.Pages
 
         public IActionResult OnPostAddTask(TaskItem newTask)
         {
-            if (newTask.Id == 0)
-                newTask.Id = tasks.Count + 1;
+            newTask.Id = tasks.Count + 1;
             tasks.Add(newTask);
             return RedirectToPage();
         }
@@ -266,6 +265,19 @@ namespace TaskManager.Pages
         {
             BeforeDate = EnteredDueDate;
             DateFilterCriteria = BeforeOrAfter;
+            return RedirectToPage();
+        }
+
+        public static DateTime inputCompletionDate;
+        public DateTime CDPointer => inputCompletionDate;
+
+        public static String CDFilterCriteria = "";
+        public String CDFilter => CDFilterCriteria;
+
+        public IActionResult OnPostFilterByCD(DateTime EnteredCD, String BeforeOrAfter)
+        {
+            inputCompletionDate = EnteredCD;
+            CDFilterCriteria = BeforeOrAfter;
             return RedirectToPage();
         }
 
