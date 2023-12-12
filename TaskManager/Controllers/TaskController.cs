@@ -70,6 +70,17 @@ namespace TaskManager.Controllers
             return "Success! Task "+ id + " is now complete!";
         }
 
+        [Route("{date:DateTime}/{description}")]
+        public String AddTask(DateTime date, String description)
+        {
+            int id = IndexModel.tasks.Count + 1;
+            bool isCompleted = false;
+            TaskItem newTask = new TaskItem { Id = id, Description = description, DueDate = date };
+            IndexModel.tasks.Add(newTask);
+            return "Success New Task - id: " + newTask.Id.ToString() + ", Description: " + newTask.Description + ", Due Date: " + newTask.DueDate.ToString(); 
+        }
+
+
         // Changing Task's Description by Id
 
         [Route("{id:int}/{newDescription}")]
