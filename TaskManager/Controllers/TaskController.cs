@@ -51,14 +51,14 @@ namespace TaskManager.Controllers
 
         // Demo
 
-        public string Hello()
+        public string Hello() // task/hello
         {
             return "hi hi hi ";  // returned if you type 'hello'
         }
 
         // Mark Task As Completed by ID
 
-        [Route("{id:int}")]
+        [Route("{id:int}")] //Adding to the route 'controller/action, which in this case is 'task/complete/1
         public string Complete(int id) // Type "Complete/{id}" i.e.: if you want to mark task 3 as completed, "Complete/3"
         {
             var task  = IndexModel.tasks.FirstOrDefault(t => t.Id == id);
@@ -233,8 +233,19 @@ namespace TaskManager.Controllers
 
             return ("no completed tasks");
         }
+        [Route("[controller]/[action]")]
+        public String deleteTasks()
+        {
+            return "success";
+        }
 
+        [Route("/[action]/{id:int}")]
+        public String defaultTask()
+        {
+            return "success";
+        }
 
     }
+    
 }
 
